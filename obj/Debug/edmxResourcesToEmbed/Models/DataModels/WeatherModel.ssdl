@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ah222vs_projekt_aspModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ah222vs_projekt_aspModelStoreContainer">
+    <EntitySet Name="City" EntityType="ah222vs_projekt_aspModel.Store.City" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Weather" EntityType="ah222vs_projekt_aspModel.Store.Weather" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Weather_City" Association="ah222vs_projekt_aspModel.Store.FK_Weather_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="Weather" EntitySet="Weather" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="CityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="25" />
+  </EntityType>
+  <EntityType Name="Weather">
+    <Key>
+      <PropertyRef Name="WeatherID" />
+    </Key>
+    <Property Name="WeatherID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CityID" Type="int" Nullable="false" />
+    <Property Name="Period" Type="varchar" MaxLength="20" />
+    <Property Name="TimeFrom" Type="datetime2" />
+    <Property Name="TimeTo" Type="datetime2" />
+    <Property Name="WindDirection" Type="varchar" MaxLength="3" />
+    <Property Name="WindSpeed" Type="varchar" MaxLength="15" />
+    <Property Name="TypeOfWind" Type="varchar" MaxLength="15" />
+    <Property Name="CelciusTemperature" Type="varchar" MaxLength="5" />
+    <Property Name="TypeofWeather" Type="varchar" MaxLength="25" />
+  </EntityType>
+  <Association Name="FK_Weather_City">
+    <End Role="City" Type="ah222vs_projekt_aspModel.Store.City" Multiplicity="1" />
+    <End Role="Weather" Type="ah222vs_projekt_aspModel.Store.Weather" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="Weather">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="usp_AddCity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="varchar" Mode="In" />
+    <Parameter Name="state" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="usp_AddWeather" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cityid" Type="int" Mode="In" />
+    <Parameter Name="period" Type="varchar" Mode="In" />
+    <Parameter Name="timefrom" Type="datetime2" Mode="In" />
+    <Parameter Name="timeto" Type="datetime2" Mode="In" />
+    <Parameter Name="winddirection" Type="varchar" Mode="In" />
+    <Parameter Name="windspeed" Type="varchar" Mode="In" />
+    <Parameter Name="typeofwind" Type="varchar" Mode="In" />
+    <Parameter Name="celciustemperature" Type="varchar" Mode="In" />
+  </Function>
+</Schema>

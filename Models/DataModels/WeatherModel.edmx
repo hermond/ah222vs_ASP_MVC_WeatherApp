@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ah222vs_projekt_aspModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ah222vs_projekt_aspModelStoreContainer">
+          <EntitySet Name="City" EntityType="ah222vs_projekt_aspModel.Store.City" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Weather" EntityType="ah222vs_projekt_aspModel.Store.Weather" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Weather_City" Association="ah222vs_projekt_aspModel.Store.FK_Weather_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Weather" EntitySet="Weather" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Weather">
+          <Key>
+            <PropertyRef Name="WeatherID" />
+          </Key>
+          <Property Name="WeatherID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="Period" Type="varchar" MaxLength="20" />
+          <Property Name="TimeFrom" Type="datetime2" />
+          <Property Name="TimeTo" Type="datetime2" />
+          <Property Name="WindDirection" Type="varchar" MaxLength="3" />
+          <Property Name="WindSpeed" Type="varchar" MaxLength="15" />
+          <Property Name="TypeOfWind" Type="varchar" MaxLength="15" />
+          <Property Name="CelciusTemperature" Type="varchar" MaxLength="5" />
+          <Property Name="TypeofWeather" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <Association Name="FK_Weather_City">
+          <End Role="City" Type="ah222vs_projekt_aspModel.Store.City" Multiplicity="1" />
+          <End Role="Weather" Type="ah222vs_projekt_aspModel.Store.Weather" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="Weather">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="usp_AddCity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="state" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_AddWeather" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cityid" Type="int" Mode="In" />
+          <Parameter Name="period" Type="varchar" Mode="In" />
+          <Parameter Name="timefrom" Type="datetime2" Mode="In" />
+          <Parameter Name="timeto" Type="datetime2" Mode="In" />
+          <Parameter Name="winddirection" Type="varchar" Mode="In" />
+          <Parameter Name="windspeed" Type="varchar" Mode="In" />
+          <Parameter Name="typeofwind" Type="varchar" Mode="In" />
+          <Parameter Name="celciustemperature" Type="varchar" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ah222vs_projekt_aspModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="weatherEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="ah222vs_projekt_aspModel.City" />
+          <EntitySet Name="Weathers" EntityType="ah222vs_projekt_aspModel.Weather" />
+          <AssociationSet Name="FK_Weather_City" Association="ah222vs_projekt_aspModel.FK_Weather_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Weather" EntitySet="Weathers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="State" Type="String" MaxLength="25" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Weathers" Relationship="ah222vs_projekt_aspModel.FK_Weather_City" FromRole="City" ToRole="Weather" />
+        </EntityType>
+        <EntityType Name="Weather">
+          <Key>
+            <PropertyRef Name="WeatherID" />
+          </Key>
+          <Property Name="WeatherID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="Period" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="TimeFrom" Type="DateTime" Precision="7" />
+          <Property Name="TimeTo" Type="DateTime" Precision="7" />
+          <Property Name="WindDirection" Type="String" MaxLength="3" Unicode="false" FixedLength="false" />
+          <Property Name="WindSpeed" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="TypeOfWind" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="CelciusTemperature" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="City" Relationship="ah222vs_projekt_aspModel.FK_Weather_City" FromRole="Weather" ToRole="City" />
+          <Property Type="String" Name="TypeofWeather" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Weather_City">
+          <End Role="City" Type="ah222vs_projekt_aspModel.City" Multiplicity="1" />
+          <End Role="Weather" Type="ah222vs_projekt_aspModel.Weather" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="Weather">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ah222vs_projekt_aspModelStoreContainer" CdmEntityContainer="weatherEntities">
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="ah222vs_projekt_aspModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="ah222vs_projekt_aspModel.City">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="ah222vs_projekt_aspModel.Store.usp_AddCity" >
+                  <ScalarProperty Name="State" ParameterName="state" />
+                  <ScalarProperty Name="Name" ParameterName="name" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weathers">
+            <EntityTypeMapping TypeName="ah222vs_projekt_aspModel.Weather">
+              <MappingFragment StoreEntitySet="Weather">
+                <ScalarProperty Name="TypeofWeather" ColumnName="TypeofWeather" />
+                <ScalarProperty Name="WeatherID" ColumnName="WeatherID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="TimeFrom" ColumnName="TimeFrom" />
+                <ScalarProperty Name="TimeTo" ColumnName="TimeTo" />
+                <ScalarProperty Name="WindDirection" ColumnName="WindDirection" />
+                <ScalarProperty Name="WindSpeed" ColumnName="WindSpeed" />
+                <ScalarProperty Name="TypeOfWind" ColumnName="TypeOfWind" />
+                <ScalarProperty Name="CelciusTemperature" ColumnName="CelciusTemperature" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

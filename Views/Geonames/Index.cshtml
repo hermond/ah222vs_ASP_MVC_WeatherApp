@@ -1,0 +1,56 @@
+﻿
+@model WeatherApp.Models.MainPageViewModel
+
+@{
+    ViewBag.Title = "Väderappen";
+}
+
+
+<h2>Väderappen</h2>
+ @Html.Partial("Search", new WeatherApp.Models.SearchViewModel())
+
+
+@if (Model != null)
+{
+    if (Model.NoCities)
+    {
+        <p>Inga städer hittades. Testa igen!</p>
+    }
+    
+    if(Model.HasManyCities)
+    {
+        <ul>
+        @foreach (var city in @Model.Cities)
+        {
+            
+           <li> @Html.ActionLink(@city.Name +","+ @city.State, "getWeather", "Geonames", new {city = @city.Name, state = @city.State}, null)</li>
+    
+        }
+         </ul>
+    }
+
+   if(@Model.City != null)
+    {
+    <h2>5-dygnsprognos för @Model.City,  @Model.State </h2>
+    
+    
+    for (int i = 0; i < Model.FiveDaysOfWeather.Count; i++)
+    {
+     <div class="weatherbox">
+         @if(i == 0){
+          <p>Idag</p>
+         } else if (i == 1){
+         <p>Imorgon</p>
+         }else{
+         <p>@Model.FiveDaysOfWeather[i].TimeFrom.ToString().Substring(0, 10)</p>
+         }  
+        <p><img src='@("../Content/Images/"+Model.FiveDaysOfWeather[i].TypeofWeather.Replace(" ", "")+".png")' /></p>
+        <p class="temperature">@Model.FiveDaysOfWeather[i].CelciusTemperature &#176;</p>
+        <p>@Model.FiveDaysOfWeather[i].WindSpeed mph</p>
+        <p><img src='@("../Content/Images/winds/"+Model.FiveDaysOfWeather[i].WindDirection+".png")' /></p>
+    </div>
+    }
+    }
+}
+
+

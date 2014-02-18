@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ah222vs_projekt_aspModelStoreContainer" CdmEntityContainer="weatherEntities">
+    <EntitySetMapping Name="Cities">
+      <EntityTypeMapping TypeName="ah222vs_projekt_aspModel.City">
+        <MappingFragment StoreEntitySet="City">
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="State" ColumnName="State" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="ah222vs_projekt_aspModel.City">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="ah222vs_projekt_aspModel.Store.usp_AddCity">
+            <ScalarProperty Name="State" ParameterName="state" />
+            <ScalarProperty Name="Name" ParameterName="name" />
+          </InsertFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Weathers">
+      <EntityTypeMapping TypeName="ah222vs_projekt_aspModel.Weather">
+        <MappingFragment StoreEntitySet="Weather">
+          <ScalarProperty Name="TypeofWeather" ColumnName="TypeofWeather" />
+          <ScalarProperty Name="WeatherID" ColumnName="WeatherID" />
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+          <ScalarProperty Name="Period" ColumnName="Period" />
+          <ScalarProperty Name="TimeFrom" ColumnName="TimeFrom" />
+          <ScalarProperty Name="TimeTo" ColumnName="TimeTo" />
+          <ScalarProperty Name="WindDirection" ColumnName="WindDirection" />
+          <ScalarProperty Name="WindSpeed" ColumnName="WindSpeed" />
+          <ScalarProperty Name="TypeOfWind" ColumnName="TypeOfWind" />
+          <ScalarProperty Name="CelciusTemperature" ColumnName="CelciusTemperature" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

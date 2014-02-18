@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ah222vs_projekt_aspModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="weatherEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Cities" EntityType="ah222vs_projekt_aspModel.City" />
+    <EntitySet Name="Weathers" EntityType="ah222vs_projekt_aspModel.Weather" />
+    <AssociationSet Name="FK_Weather_City" Association="ah222vs_projekt_aspModel.FK_Weather_City">
+      <End Role="City" EntitySet="Cities" />
+      <End Role="Weather" EntitySet="Weathers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="CityID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="State" Type="String" MaxLength="25" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Weathers" Relationship="ah222vs_projekt_aspModel.FK_Weather_City" FromRole="City" ToRole="Weather" />
+  </EntityType>
+  <EntityType Name="Weather">
+    <Key>
+      <PropertyRef Name="WeatherID" />
+    </Key>
+    <Property Name="WeatherID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CityID" Type="Int32" Nullable="false" />
+    <Property Name="Period" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="TimeFrom" Type="DateTime" Precision="7" />
+    <Property Name="TimeTo" Type="DateTime" Precision="7" />
+    <Property Name="WindDirection" Type="String" MaxLength="3" Unicode="false" FixedLength="false" />
+    <Property Name="WindSpeed" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+    <Property Name="TypeOfWind" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+    <Property Name="CelciusTemperature" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="City" Relationship="ah222vs_projekt_aspModel.FK_Weather_City" FromRole="Weather" ToRole="City" />
+    <Property Type="String" Name="TypeofWeather" MaxLength="25" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Weather_City">
+    <End Role="City" Type="ah222vs_projekt_aspModel.City" Multiplicity="1" />
+    <End Role="Weather" Type="ah222vs_projekt_aspModel.Weather" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="Weather">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

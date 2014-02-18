@@ -1,0 +1,12 @@
+﻿@model WeatherApp.Models.SearchViewModel
+
+@Html.ValidationSummary()
+
+@using(@Html.BeginForm("Search", "Geonames")){
+//@Html.LabelFor(m => m.SearchString)
+    
+@Html.TextBoxFor(m => m.SearchString)
+
+ <input type="submit" value="Hämta väder" />
+@Html.ValidationMessageFor(m => m.SearchString)
+}
